@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// store coin and stamps values  in array and  store that array in function //
+int stamps[3] = {20, 20, 20};
+int coins[4] = {20, 20, 20, 20};
+
+void printQuantities() {
+    printf("Available Quantity of stamps (25, 15, 10 rupees): %d, %d, %d\n\n", stamps[0], stamps[1], stamps[2]);
+    printf("Available Quantity of coins (50, 25, 10, 5 rupees): %d, %d, %d, %d\n", coins[0], coins[1], coins[2], coins[3]);
+}
+
+int main() {
+    int amount, stamp,Remaining_amount, i;
+    char quit = 'n';
+
+    printQuantities();
+
+    do {
+        repeat:printf("\nEnter the amount tendered: ");
+        scanf("%d", &amount);
+
+        if ((amount == 5)|| (amount == 10) || (amount == 25) || (amount == 50))
+           {
+               again: printf("Enter the stamp requested: ");
+                scanf("%d", &stamp);
+           }
+
+        else
+          {
+            printf("Can't use this coin !! Only accept 5 , 10 , 25 ,50 rupee coins \n");
+           continue;
+          }
+
+        if (stamp == 25) i= 0;
+        else if (stamp == 15) i = 1;
+        else if (stamp == 10) i = 2;
+        else {
+            printf("Invalid stamp requested.\n\n");
+            goto again;
+            continue;
+        }
+
+        if ((stamps[0] == 0) || (stamps[1] == 0)||(stamps[2] == 0)) {
+            printf("No stamp available.\n\n");
+            continue;
+        }
+
+        if (amount < stamp) {
+            printf("Insufficient amount tendered !!!! .\n\n");
+            continue;
+        }
+
+        Remaining_amount = amount - stamp;
+
+        printf("Stamp of %d rupees is dispensed.\n\n", stamp);
+        stamps[i]--;
+
+        if (Remaining_amount> 0) {
+            printf("Remaining amount of %d rupees is returned.\n\n", Remaining_amount);
+           }
+
+        else
+            printf("No Remaining amount!! \n");
+
+        // calculate and display remaining amount of coins and stamps //
+
+        if ((stamp == 25) && (amount == 50)) coins[0]++ , coins[1]--;
+        else if ((stamp == 15) && (amount == 50)) coins[0]++, coins[1]--,coins[2]--;
+        else if ((stamp == 10) && (amount == 50)) coins[0]++, coins[1]--,coins[2]--,coins[3]--;
+        else if ((stamp == 25) && (amount == 25)) coins[1]++;
+        else if ((stamp == 15) && (amount == 25)) coins[1]++,coins[2]--;
+        else if ((stamp == 10) && (amount == 25)) coins[1]++,coins[2]--,coins[3]--;
+        else if (stamp == 10) coins[2]++;
+
+        printQuantities();
+
+        printf("Do you want to quit (y/n)? ");
+        scanf(" %c", &quit);
+    } while (quit != 'y');
+
+    printf("Thank You!!!! \n\n");
+      goto repeat;
+    return 0;
+}
